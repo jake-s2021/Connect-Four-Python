@@ -1,9 +1,7 @@
 def main():
-    #this is ugly as hell, good lord
-    #don't do this, initialize it with a nested for loop
-    board = [["~" for number in range(1,8)],["~" for number in range(1,8)],["~" for number in range(1,8)]
-    ,["~" for number in range(1,8)],["~" for number in range(1,8)],["~" for number in range(1,8)]]
-   
+    
+    board = [ ["~" for j in range(0,7)]for i in range(0,6)]
+
     winner = 0
     game_start = True
 
@@ -29,50 +27,44 @@ def printBoard(_board):
 
 def _drop(_board, player):
 
-    while 1:
+    flag = True
 
-        flag = True
-
+    while flag:
         try:
 
-            while flag:
-                row = ord(input("Player " + str(player) + " Pick a row to drop[1-7]: ")) #using ord over int so try except catches letters
+            row = ord(input("Player " + str(player) + " Pick a row to drop[1-7]: ")) #using ord over int so try except catches letters
                 
-                if row >= 49: #prevents negative indexs
-                    row -= 49
+            if row >= 49: #prevents negative indexs
+                row -= 49
                 
             
-
-            
-                    for i in range(1,6):
+                for i in range(1,6):
                             
-                        if _board[i][row] == "X" or _board[i][row] == "O":
-                            if not _board[i-1][row] == "X" and not _board[i-1][row] == "O":
-                                if player == 1:
-                                    _board[i-1][row] = "X"
-                                    flag = False
-                                    break
-                                else:
-                                    _board[i-1][row] = "O"
-                                    flag = False
-                                    break
-                            else:
-                                print("\nSpot taken, pick another. \n")
-                                break
-                        if i == 5:
+                    if _board[i][row] == "X" or _board[i][row] == "O":
+                        if not _board[i-1][row] == "X" and not _board[i-1][row] == "O":
                             if player == 1:
-                                _board[i][row] = "X"
+                                _board[i-1][row] = "X"
                                 flag = False
                                 break
                             else:
-                                _board[i][row] = "O"
+                                _board[i-1][row] = "O"
                                 flag = False
                                 break
+                        else:
+                            print("\nSpot taken, pick another. \n")
+                            break
+                    if i == 5:
+                        if player == 1:
+                            _board[i][row] = "X"
+                            flag = False
+                            break
+                        else:
+                            _board[i][row] = "O"
+                            flag = False
+                            break
         except:
             print("Invalid input.")
-        if not flag:
-            break
-
+         
 def check_win(_board):
     p1win = 0
     p2win = 0
