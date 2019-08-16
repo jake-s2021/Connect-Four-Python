@@ -34,37 +34,40 @@ def _drop(_board, player):
         flag = True
 
         try:
-            row = ord(input("Player " + str(player) + " Pick a row to drop[1-7]: ")) #using ord over int so try except catches letters
-            
-            if row >= 49: #prevents negative indexs
-                row -= 49
-            
-        
 
             while flag:
-                for i in range(1,6):
-                        
-                    if _board[i][row] == "X" or _board[i][row] == "O":
-                        if not _board[i-1][row] == "X" and not _board[i-1][row] == "O":
+                row = ord(input("Player " + str(player) + " Pick a row to drop[1-7]: ")) #using ord over int so try except catches letters
+                
+                if row >= 49: #prevents negative indexs
+                    row -= 49
+                
+            
+
+            
+                    for i in range(1,6):
+                            
+                        if _board[i][row] == "X" or _board[i][row] == "O":
+                            if not _board[i-1][row] == "X" and not _board[i-1][row] == "O":
+                                if player == 1:
+                                    _board[i-1][row] = "X"
+                                    flag = False
+                                    break
+                                else:
+                                    _board[i-1][row] = "O"
+                                    flag = False
+                                    break
+                            else:
+                                print("\nSpot taken, pick another. \n")
+                                break
+                        if i == 5:
                             if player == 1:
-                                _board[i-1][row] = "X"
+                                _board[i][row] = "X"
                                 flag = False
                                 break
                             else:
-                                _board[i-1][row] = "O"
+                                _board[i][row] = "O"
                                 flag = False
                                 break
-                        else:
-                            row = input("Spot taken, pick another: ")
-                    if i == 5:
-                        if player == 1:
-                            _board[i][row] = "X"
-                            flag = False
-                            break
-                        else:
-                            _board[i][row] = "O"
-                            flag = False
-                            break
         except:
             print("Invalid input.")
         if not flag:
@@ -73,6 +76,10 @@ def _drop(_board, player):
 def check_win(_board):
     p1win = 0
     p2win = 0
+
+    if "~" not in _board[0]: #if first element is full of X and O then all subsequent elements are also full
+        return 3
+        
 
 
     for i in range(0,7):
@@ -230,8 +237,12 @@ def reset_game(win, _board, start):
 
     replay = "y"
 
-    if win == 1 or win == 2:
-        replay = input("Player " + str(win) + " wins! Play again?(y/n): ")
+    if win == 1 or win == 2 or win == 3:
+
+        if win == 3:
+            replay = input("Draw! Play again?(y/n): ")
+        else:
+            replay = input("Player " + str(win) + " wins! Play again?(y/n): ")
         for i in range(0,6):
             for j in range(0,7):
                 _board[i][j] = "~"
