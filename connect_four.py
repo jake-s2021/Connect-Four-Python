@@ -1,6 +1,6 @@
 def main():
     
-    board = [ ["~" for j in range(0,7)]for i in range(0,6)]
+    board = [["~" for j in range(0,7)]for i in range(0,6)]
 
     winner = 0
     game_start = True
@@ -19,11 +19,22 @@ def printBoard(_board):
 
     labels = [str(i) for i in range(1,8)]
 
+    print("\033[0;37;40m\n")
+
+    for i in range(0,7):
+        print("\033[0;32;40m"+labels[i], end = "    ")
+
     print("\n")
-    print(labels)
 
     for i in range(0,6):
-        print(_board[i])
+        for j in range(0,7):
+            if _board[i][j] == "X":
+                print("\033[0;34;40m"+_board[i][j], end = "    ")
+            elif _board[i][j] == "O":
+                print("\033[0;31;40m"+_board[i][j], end = "    ")
+            else:
+                print("\033[0;37;40m"+_board[i][j], end = "    ")
+        print("\n") 
 
 def _drop(_board, player):
 
@@ -32,7 +43,7 @@ def _drop(_board, player):
     while flag:
         try:
 
-            row = ord(input("Player " + str(player) + " Pick a row to drop[1-7]: ")) #using ord over int so try except catches letters
+            row = ord(input("\033[0;37;40mPlayer " + str(player) + " Pick a row to drop[1-7]: ")) #using ord over int so try except catches letters
                 
             if row >= 49: #prevents negative indexs
                 row -= 49
@@ -51,7 +62,7 @@ def _drop(_board, player):
                                 flag = False
                                 break
                         else:
-                            print("\nSpot taken, pick another. \n")
+                            print("\n\033[0;37;40mSpot taken, pick another. \n")
                             break
                     if i == 5:
                         if player == 1:
@@ -63,7 +74,7 @@ def _drop(_board, player):
                             flag = False
                             break
         except:
-            print("Invalid input.")
+            print("\033[0;37;40mInvalid input.")
          
 def check_win(_board):
     p1win = 0
@@ -232,9 +243,9 @@ def reset_game(win, _board, start):
     if win == 1 or win == 2 or win == 3:
 
         if win == 3:
-            replay = input("Draw! Play again?(y/n): ")
+            replay = input("\033[0;37;40mDraw! Play again?(y/n): ")
         else:
-            replay = input("Player " + str(win) + " wins! Play again?(y/n): ")
+            replay = input("\033[0;37;40mPlayer " + str(win) + " wins! Play again?(y/n): ")
         for i in range(0,6):
             for j in range(0,7):
                 _board[i][j] = "~"
@@ -247,4 +258,3 @@ def reset_game(win, _board, start):
 
 main()
 
-    
